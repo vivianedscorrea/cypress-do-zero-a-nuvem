@@ -1,11 +1,12 @@
-Cypress.Commands.add('fillMandatoryFieldsAndSubmit', () => {
-    cy.get('#firstName').type('Viviane')
-    cy.get('#lastName').type('Correa')
-    cy.get('#email').type('vivianecorreasv@gmail.com')
-    cy.get('#phone').type('51 9953764')
-    cy.get('#product').select('mentoria')
-    cy.get('#support-type').find('input[name="atendimento-tat"][value="feedback"]').check()                              
-    cy.get('#check').find('input[name=email][value=email]').check()
-    cy.get('#open-text-area').type(longText, {delay: 0})
+Cypress.Commands.add('fillMandatoryFieldsAndSubmit', (data = {
+    firstName: 'Jonh',
+    lastName: 'Correa',
+    email: 'jonh@gmail.com',
+    text: 'Test.'
+})=> {
+    cy.get('#firstName').type(data.firstName)
+    cy.get('#lastName').type(data.lastName)
+    cy.get('#email').type(data.email)
+    cy.get('#open-text-area').type(data.text)
     cy.get('button[type="submit"]').click()
-})
+}) 

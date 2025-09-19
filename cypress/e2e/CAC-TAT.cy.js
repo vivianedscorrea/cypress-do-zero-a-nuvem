@@ -123,8 +123,14 @@ describe('Aplicação Local Central de Atendimento ao Cliente TAT', () => {
     cy.get('.error').should('be.visible','Valide os campos obrigatórios!')
     })
 
-    it('envia o formuário com sucesso usando um comando customizado', () => {
-      cy.fillMandatoryFieldsAndSubmit()
+    it.only('envia o formuário com sucesso usando um comando customizado', () => {
+      const data = {
+        firstName: 'Viviane',
+        lastName: 'Correa',
+        email: 'vivianecorreasv@gmail.com',
+        text: 'Teste.'
+      }
+      cy.fillMandatoryFieldsAndSubmit(data)
 
       cy.get('.success').should('be.visible')
     })
