@@ -28,7 +28,7 @@ describe('Aplicação Local Central de Atendimento ao Cliente TAT', () => {
       .check()
     cy.get('#open-text-area')
       .type(longText, {delay: 0})
-    cy.get('button[type="submit"]')
+    cy.contains('button', 'Enviar')
       .click()
 
     cy.get('.success')
@@ -55,7 +55,7 @@ describe('Aplicação Local Central de Atendimento ao Cliente TAT', () => {
       .check()
     cy.get('#open-text-area')
       .type(longText, {delay: 0})
-    cy.get('button[type="submit"]')
+    cy.contains('button', 'Enviar')
       .click()
 
     cy.get('.error').should('be.visible','Valide os campos obrigatórios!')
@@ -85,7 +85,7 @@ describe('Aplicação Local Central de Atendimento ao Cliente TAT', () => {
       .check()
     cy.get('#open-text-area')
       .type(longText, {delay: 0})
-    cy.get('button[type="submit"]')
+    cy.contains('button', 'Enviar')
       .click()
     cy.get('.error')
       .should('be.visible','Valide os campos obrigatórios!')
@@ -117,13 +117,13 @@ describe('Aplicação Local Central de Atendimento ao Cliente TAT', () => {
 
     it('exibe mensagem de erro ao submeter o formulário sem preencher os campos obrigatórios.', () => {
     const longText = Cypress._.repeat('abcdefghijklmnopqrstuvwxyz', 10) 
-    cy.get('button[type="submit"]')
+    cy.contains('button', 'Enviar')
       .click()
 
     cy.get('.error').should('be.visible','Valide os campos obrigatórios!')
     })
 
-    it.only('envia o formuário com sucesso usando um comando customizado', () => {
+    it('envia o formuário com sucesso usando um comando customizado', () => {
       const data = {
         firstName: 'Viviane',
         lastName: 'Correa',
@@ -133,5 +133,17 @@ describe('Aplicação Local Central de Atendimento ao Cliente TAT', () => {
       cy.fillMandatoryFieldsAndSubmit(data)
 
       cy.get('.success').should('be.visible')
+    })
+
+    it('seleciona um produto (YouTube) por seu texto', () => {
+      cy.get('#product').select('YouTube').should('have.value', 'youtube')
+    })
+
+    it('seleciona um produto (Mentoria) por seu valor (value)', () => {
+      cy.get('#product').select('mentoria').should('have.value', 'mentoria')
+    })
+
+    it('seleciona um produto (Blog) por seu índice', () => {
+      cy.get('#product').select(1).should('have.value', 'blog')
     })
   })
