@@ -146,4 +146,33 @@ describe('Aplicação Local Central de Atendimento ao Cliente TAT', () => {
     it('seleciona um produto (Blog) por seu índice', () => {
       cy.get('#product').select(1).should('have.value', 'blog')
     })
-  })
+
+    it('marca o tipo de atendimento "Feedback"', () => {
+      cy.get('input[type="radio"][value="feedback"]')
+      .check()
+      .should('be.checked');
+    })
+
+    it('Marca cada tipo de atendimento', () => {
+      cy.get('#support-type input[type="radio"]').each(($item) => {
+        cy.wrap($item).check().should('be.checked');
+      })
+    })
+
+    it.only('Marca ambos checkboxes, depois desmarca o último', () => {
+      cy.get('.group input[type="checkbox"]').check().should('be.checked').last().uncheck().should('not.be.checked')
+    })
+
+    it('exibe mensagem de erro quando o telefone se torna obrigatório mas não é preenchido antes do envio do formulário', () => {
+        cy.get('.group input[type="checkbox"]').check().should('be.checkbox')
+        cy.get('.button button[type="submit"]').click()
+        cy.get('.error').should('be.visible','Valide os campos obrigatórios!')
+    })
+
+    it.only('seleciona um arquivo da pasta fixtures', () => {
+      cy.get('input[type="file"]').selectFile('cypress/fixtures/example.json')
+      .should((input) => {
+
+      })
+    })
+  }) 
