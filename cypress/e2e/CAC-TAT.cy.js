@@ -159,7 +159,7 @@ describe('Aplicação Local Central de Atendimento ao Cliente TAT', () => {
       })
     })
 
-    it.only('Marca ambos checkboxes, depois desmarca o último', () => {
+    it('Marca ambos checkboxes, depois desmarca o último', () => {
       cy.get('.group input[type="checkbox"]').check().should('be.checked').last().uncheck().should('not.be.checked')
     })
 
@@ -169,10 +169,27 @@ describe('Aplicação Local Central de Atendimento ao Cliente TAT', () => {
         cy.get('.error').should('be.visible','Valide os campos obrigatórios!')
     })
 
-    it.only('seleciona um arquivo da pasta fixtures', () => {
-      cy.get('input[type="file"]').selectFile('cypress/fixtures/example.json')
-      .should((input) => {
-
+    it('seleciona um arquivo da pasta fixtures', () => {
+      cy.get('#file-upload').selectFile('cypress/fixtures/example.json')
+      .should(input => {
+        expect(input[0].files[0].name).to.equal('example.json')
       })
     })
+
+    it('seleciona um arquivo simulando um drag-and-drop', () => {
+      cy.get('#file-upload').selectFile('cypress/fixtures/example.json', { action: 'drag-drop' })
+      .should(input => {
+        expect(input[0].files[0].name).to.equal('example.json')
+      })
+    })
+
+    it.only('seleciona um arquivo utilizando uma fixture para a qual foi dada um alias', () => {
+      cy.fixture('example.json').as('sampleFile')
+      cy.get('#file-upload')
+      .selectFile('@sampleFile')
+      .should(input => {
+        expect(input[0].files[0].name).to.equal('example.json')
+      })
+    })
+    
   }) 
